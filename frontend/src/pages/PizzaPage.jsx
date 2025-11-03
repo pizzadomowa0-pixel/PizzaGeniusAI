@@ -4,7 +4,7 @@ import { generatePizzaRecipe } from "../api/pizzaApi";
 
 export default function PizzaPage() {
   const location = useLocation();
-  const { equipment, style, pizzaType } = location.state || {};
+  const { equipment, style, pizzaType, fermentation } = location.state || {};
 
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ export default function PizzaPage() {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const result = await generatePizzaRecipe(equipment, style, pizzaType);
+        const result = await generatePizzaRecipe(equipment, style, pizzaType, fermentation);
         setRecipe(result.recipe);
       } catch (err) {
         setError("Nie udało się pobrać przepisu 😢");

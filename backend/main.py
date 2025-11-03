@@ -47,7 +47,7 @@ async def generate_pizza(req: PizzaRequest):
     Generuje przepis na pizzę na podstawie wyborów użytkownika.
     """
     try:
-        prompt = generate_pizza_prompt(req.equipment, req.style, req.pizza_type)
+        prompt = generate_pizza_prompt(req.equipment, req.style, req.pizza_type, req.fermentation)
 
         response = client.responses.create(
             model="gpt-5-nano",

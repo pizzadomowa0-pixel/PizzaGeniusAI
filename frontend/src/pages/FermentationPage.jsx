@@ -5,15 +5,6 @@ export default function FermentationPage() {
   const location = useLocation();
   const previousData = location.state || {};
 
-  const handleFermentationSelect = (fermentation) => {
-    const data = {
-      ...previousData,
-      fermentation, // np. "6h_room" lub "24h_fridge"
-    };
-
-    navigate("/summary", { state: data }); // przejście dalej, np. do podsumowania lub generowania przepisu
-  };
-
   const fermentations = [
     {
       id: "6h_room",
@@ -27,11 +18,21 @@ export default function FermentationPage() {
     },
   ];
 
+  const handleFermentationSelect = (fermentation) => {
+    const data = {
+      ...previousData,
+      fermentation,
+    };
+
+    navigate("/pizza", { state: data }); // przejście do PizzaPage z wszystkimi danymi
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-orange-100 p-6">
       <h1 className="text-3xl font-bold mb-8 text-orange-800">
         Wybierz czas fermentacji ciasta
       </h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
         {fermentations.map((f) => (
           <div
@@ -44,6 +45,13 @@ export default function FermentationPage() {
           </div>
         ))}
       </div>
+
+      <button
+        className="absolute top-4 left-4 p-2 rounded bg-gray-200 hover:bg-gray-300"
+        onClick={() => navigate("/style", { state: previousData })}
+      >
+        ← Wstecz
+      </button>
     </div>
   );
 }

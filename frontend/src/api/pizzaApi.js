@@ -1,14 +1,17 @@
 import axios from "axios";
 
-const API_URL = "https://pizzageniusai-2.onrender.com"; // backend FastAPI
+const API_URL = "http://127.0.0.1:8000"
+
+// backend FastAPI
 
 // Funkcja wysyłająca dane do backendu
-export async function generatePizzaRecipe(equipment, style, pizzaType) {
+export async function generatePizzaRecipe(equipment, style, pizzaType, fermentation) {
   try {
     const response = await axios.post(`${API_URL}/generate`, {
       equipment,
       style,
       pizza_type: pizzaType,
+      fermentation
     });
 
     return response.data; // zawiera { status: "success", recipe: "..." }
