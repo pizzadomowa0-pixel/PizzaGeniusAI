@@ -4,11 +4,22 @@ from openai import OpenAI
 from ai_logic import generate_pizza_prompt
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    print("⚠️  python-dotenv nie jest zainstalowany – używam zmiennych środowiskowych")
+
+# 🔑 pobieramy klucz API z ENV
+api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    raise ValueError("❌ Brak klucza API! Ustaw OPENAI_API_KEY w środowisku Render lub w pliku .env")
+
+# ✅ inicjalizujemy klienta OpenAI
+client = OpenAI(api_key=api_key)
 
 # ✅ Aplikacja FastAPI
 app = FastAPI()
