@@ -24,7 +24,7 @@ export default function FermentationPage() {
       fermentation,
     };
 
-    navigate("/pizza", { state: data }); // przejście do PizzaPage z wszystkimi danymi
+    navigate("/pizza", { state: data });
   };
 
   return (

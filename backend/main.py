@@ -12,19 +12,19 @@ try:
 except Exception:
     print("⚠️  python-dotenv nie jest zainstalowany – używam zmiennych środowiskowych")
 
-# 🔑 pobieramy klucz API z ENV
+
 api_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
     raise ValueError("❌ Brak klucza API! Ustaw OPENAI_API_KEY w środowisku Render lub w pliku .env")
 
-# ✅ inicjalizujemy klienta OpenAI
+
 client = OpenAI(api_key=api_key)
 
-# ✅ Aplikacja FastAPI
+
 app = FastAPI()
 
-# ✅ Pozwalamy frontendowi (React) łączyć się z backendem
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # w devie OK, potem można zawęzić
@@ -33,7 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Model danych wejściowych
+
 class PizzaRequest(BaseModel):
     equipment: str
     style: str
