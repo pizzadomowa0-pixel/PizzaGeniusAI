@@ -27,7 +27,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # w devie OK, potem można zawęzić
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -49,14 +49,23 @@ async def generate_pizza(req: PizzaRequest):
     try:
         prompt = generate_pizza_prompt(req.equipment, req.style, req.pizza_type, req.fermentation)
 
-        response = client.responses.create(
-            model="gpt-5-nano",
-            input=prompt
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"}
         )
+
+        content = response.choices[0].message.content
+        import json
+        recipe_data = json.loads(content)
 
         return JSONResponse(content={
             "status": "success",
-            "recipe": response.output_text
+            "recipe": recipe_data
         })
     except Exception as e:
+        print(f"Error generating pizza: {e}") # Simple logging
         return JSONResponse(content={"status": "error", "message": str(e)}, status_code=500)
